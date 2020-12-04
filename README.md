@@ -1,3 +1,9 @@
+# MANY Speedtest - Librespeed
+
+
+
+---
+
 ![LibreSpeed-Android Logo](https://github.com/adolfintel/speedtest-android/blob/master/.github/Readme-Logo.png?raw=true)
  
 # LibreSpeed Android Template
@@ -38,7 +44,7 @@ One or more servers with [LibreSpeed](https://github.com/librespeed/speedtest) i
 ## License
 Copyright (C) 2020 Federico Dossena
 
-This program is free software: you can redistribute it and/or modify
+This program is free software: you can redistribute it and/or modify#
 it under the terms of the GNU Lesser General Public License as published by
 the Free Software Foundation, either version 3 of the License, or
 (at your option) any later version.
