@@ -155,10 +155,23 @@
                 android:paddingBottom="@dimen/margin_medium"
                 android:id="@+id/privacy_open"
                 android:layout_below="@id/start"
-                android:layout_marginTop="@dimen/margin_sep"
+                android:layout_marginTop="30dp"
                 android:textColor="@color/privacyLinks"
                 android:textSize="@dimen/privacyLinks"
                 />
+
+            <TextView
+                android:id="@+id/id_open"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/start"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="100dp"
+                android:includeFontPadding="false"
+                android:paddingBottom="@dimen/margin_medium"
+                android:text="@string/id_open"
+                android:textColor="@color/privacyLinks"
+                android:textSize="@dimen/privacyLinks" />
 
         </RelativeLayout>
 
@@ -188,6 +201,53 @@
                 android:textColor="@color/privacyLinks"
                 android:textSize="@dimen/privacyLinks"
                 />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/page_idInput"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/appBackground"
+            android:visibility="invisible">
+
+            <TextView
+                android:id="@+id/idInput_close"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="@dimen/margin_sep"
+                android:paddingBottom="@dimen/margin_medium"
+                android:text="@string/privacy_close"
+                android:textColor="@color/privacyLinks"
+                android:textSize="@dimen/privacyLinks" />
+
+            <Button
+                android:id="@+id/idButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:text="Submit" />
+
+            <EditText
+                android:id="@+id/idEdit"
+                android:layout_marginTop="150dp"
+                android:layout_centerHorizontal="true"
+                android:layout_width="200dp"
+                android:layout_height="50dp"
+                android:ems="10"
+                android:inputType="number" />
+
+            <TextView
+                android:layout_centerHorizontal="true"
+                android:gravity="center"
+                android:layout_marginTop="250dp"
+                android:id="@+id/idDisplay"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content" />
 
         </RelativeLayout>
 
@@ -529,6 +589,7 @@
                         android:paddingBottom="@dimen/shareButton_vPadding"
                         />
                 </LinearLayout>
+
             </RelativeLayout>
         </ScrollView>
     </RelativeLayout>

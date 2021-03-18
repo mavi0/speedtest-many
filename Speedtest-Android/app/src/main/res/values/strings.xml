@@ -1,9 +1,10 @@
 <resources>
-    <string name="app_name">LibreSpeed Android Template</string>
+    <string name="app_name">MANY Performance Test</string>
     <string name="logo_inapp_link">https://github.com/librespeed/speedtest-android</string>
     <string name="privacy_policy">file:///android_asset/privacy_en.html</string>
 
-
+    <string name="id_open"><u>Set ID</u></string>
+    <string name="id_buttton"><u>Submit</u></string>
     <string name="init_init">Loading</string>
     <string name="initFail_configError">Configuration error</string>
     <string name="initFail_retry">Retry</string>

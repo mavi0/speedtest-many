@@ -1,7 +1,15 @@
 [
   {
-    "name":"Helsinki, Finland",
+    "name":"Athena, Lancaster University",
     "server":"//fi.openspeed.org",
+    "dlURL":"garbage.php",
+    "ulURL":"empty.php",
+    "pingURL":"empty.php",
+    "getIpURL":"getIP.php"
+  },
+  {
+    "name":"Lovesome, Quickline Communications",
+    "server":"//perf.lovesome.manyproject.uk",
     "dlURL":"garbage.php",
     "ulURL":"empty.php",
     "pingURL":"empty.php",

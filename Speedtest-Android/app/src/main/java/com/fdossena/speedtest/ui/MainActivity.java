@@ -1,22 +1,28 @@
 package com.fdossena.speedtest.ui;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.telephony.SignalStrength;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.telephony.TelephonyManager;
 
 import com.fdossena.speedtest.core.Speedtest;
 import com.fdossena.speedtest.core.config.SpeedtestConfig;
@@ -28,7 +34,15 @@ import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.EOFException;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Locale;
 
@@ -68,11 +82,85 @@ public class MainActivity extends Activity {
                     System.err.println("Failed to load testbackground ("+t.getMessage()+")");
                 }
                 page_init();
+
             }
         }.start();
     }
 
     private static Speedtest st=null;
+
+    private void writeIdToFile(String data) {
+        Context context = getApplicationContext();
+        try {
+            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(context.openFileOutput("config.txt", Context.MODE_PRIVATE));
+            outputStreamWriter.write(data);
+            outputStreamWriter.close();
+        }
+        catch (IOException e) {
+            Log.e("Exception", "File write failed: " + e.toString());
+        }
+    }
+
+    private String readIdFromFile() {
+
+        String ret = "";
+        Context context = getApplicationContext();
+        try {
+            InputStream inputStream = context.openFileInput("config.txt");
+
+            if ( inputStream != null ) {
+                InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
+                BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+                String receiveString = "";
+                StringBuilder stringBuilder = new StringBuilder();
+
+                while ( (receiveString = bufferedReader.readLine()) != null ) {
+                    stringBuilder.append("\n").append(receiveString);
+                }
+
+                inputStream.close();
+                ret = stringBuilder.toString();
+            }
+        }
+        catch (FileNotFoundException e) {
+            Log.e("login activity", "File not found: " + e.toString());
+            ret = "0";
+        } catch (IOException e) {
+            Log.e("login activity", "Can not read file: " + e.toString());
+            ret = "0";
+        }
+
+        return ret;
+    }
+
+    private int postUrl(String sourceUrl, String data) {
+        try {
+            URL url = new URL(sourceUrl);
+            HttpURLConnection con = (HttpURLConnection)url.openConnection();
+            con.setRequestMethod("POST");
+            con.setRequestProperty("Content-Type", "application/json; utf-8");
+            con.setRequestProperty("Accept", "application/json");
+            con.setDoOutput(true);
+            try(OutputStream os = con.getOutputStream()) {
+                byte[] input = data.getBytes("utf-8");
+                os.write(input, 0, input.length);
+            }
+            try(BufferedReader br = new BufferedReader(
+                    new InputStreamReader(con.getInputStream(), "utf-8"))) {
+                StringBuilder response = new StringBuilder();
+                String responseLine = null;
+                while ((responseLine = br.readLine()) != null) {
+                    response.append(responseLine.trim());
+                }
+                System.out.println(response.toString());
+            }
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    return 0;
+    }
 
     private void page_init(){
         new Thread(){
@@ -94,6 +182,15 @@ public class MainActivity extends Activity {
                 SpeedtestConfig config=null;
                 TelemetryConfig telemetryConfig=null;
                 TestPoint[] servers=null;
+                String id = readIdFromFile();
+//                if(id == "0"){
+//                    runOnUiThread(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            page_auth();
+//                        }
+//                    });
+//                }
                 try{
                     String c=readFileFromAssets("SpeedtestConfig.json");
                     JSONObject o=new JSONObject(c);
@@ -105,7 +202,7 @@ public class MainActivity extends Activity {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                hideView(R.id.privacy_open);
+//                                hideView(R.id.privacy_open);
                             }
                         });
                     }
@@ -202,6 +299,11 @@ public class MainActivity extends Activity {
         }.start();
     }
 
+    private void page_auth(){
+        transition(R.id.page_idInput,TRANSITION_LENGTH);
+
+    }
+
     private void page_serverSelect(TestPoint selected, TestPoint[] servers){
         transition(R.id.page_serverSelect,TRANSITION_LENGTH);
         reinitOnResume=true;
@@ -235,6 +337,14 @@ public class MainActivity extends Activity {
                 page_privacy();
             }
         });
+
+        TextView id =(TextView)findViewById(R.id.id_open);
+        id.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                page_idInput();
+            }
+        });
     }
 
     private void page_privacy(){
@@ -250,7 +360,50 @@ public class MainActivity extends Activity {
             }
         });
     }
+    private int[] getTelephony() {
+        try{
+            TelephonyManager telephonyManager = (TelephonyManager) getSystemService(this.TELEPHONY_SERVICE);
+            SignalStrength signal = telephonyManager.getSignalStrength();
+            int res[] = new int[4];
+            res[0] = signal.getEvdoDbm();
+            res[1] = signal.getEvdoEcio();
+            res[2] = signal.getEvdoSnr();
+            return res;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        int res[] = new int[]{0, 0, 0};
+        return res;
+    }
+    private void page_idInput(){
+        transition(R.id.page_idInput,TRANSITION_LENGTH);
+        reinitOnResume=false;
+        ((TextView)findViewById(R.id.idDisplay)).setText("Current ID: " + readIdFromFile());
+        Button b = (Button) findViewById(R.id.idButton);
+        b.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                EditText edit = (EditText) findViewById(R.id.idEdit);
+                String id = edit.getText().toString();
+//                int res = postUrl("https://influx.manyproject.uk/", id); //TODO send to the server for verification
+                if (true) {
+                    writeIdToFile(id);
+                    ((TextView)findViewById(R.id.idDisplay)).setText("Current ID: " + readIdFromFile());
+                }
+            }
+        });
 
+        TextView t = (TextView) findViewById(R.id.idInput_close);
+        t.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                transition(R.id.page_serverSelect,TRANSITION_LENGTH);
+                reinitOnResume=true;
+            }
+        });
+    }
+
+    @TargetApi(Build.VERSION_CODES.P)
     private void page_test(final TestPoint selected){
         transition(R.id.page_test,TRANSITION_LENGTH);
         st.setSelectedServer(selected);
@@ -351,6 +504,17 @@ public class MainActivity extends Activity {
 
             @Override
             public void onEnd() {
+                double dl = Double.parseDouble(((TextView)findViewById(R.id.dlText)).getText().toString());
+                double ul = Double.parseDouble(((TextView)findViewById(R.id.ulText)).getText().toString());
+                double ping = Double.parseDouble(((TextView)findViewById(R.id.pingText)).getText().toString());
+                double jitter = Double.parseDouble(((TextView)findViewById(R.id.jitterText)).getText().toString());
+
+                String id = readIdFromFile();
+                int telephony[] = getTelephony();
+
+
+
+
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -457,7 +621,7 @@ public class MainActivity extends Activity {
 
     @Override
     public void onBackPressed() {
-        if(currentPage==R.id.page_privacy)
+        if(currentPage==R.id.page_idInput)
             transition(R.id.page_serverSelect,TRANSITION_LENGTH);
         else super.onBackPressed();
     }
