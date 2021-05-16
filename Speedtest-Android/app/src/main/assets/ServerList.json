@@ -1,7 +1,7 @@
 [
   {
     "name":"Athena, Lancaster University",
-    "server":"//fi.openspeed.org",
+    "server":"//athena.perf.manyproject.uk:7878",
     "dlURL":"garbage.php",
     "ulURL":"empty.php",
     "pingURL":"empty.php",
@@ -9,7 +9,7 @@
   },
   {
     "name":"Lovesome, Quickline Communications",
-    "server":"//perf.lovesome.manyproject.uk",
+    "server":"//lovesome.perf.manyproject.uk",
     "dlURL":"garbage.php",
     "ulURL":"empty.php",
     "pingURL":"empty.php",

@@ -9,6 +9,7 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.telephony.SignalStrength;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -53,6 +54,8 @@ public class MainActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
         setContentView(R.layout.activity_main);
         transition(R.id.page_splash,0);
         new Thread(){
@@ -120,11 +123,16 @@ public class MainActivity extends Activity {
 
                 inputStream.close();
                 ret = stringBuilder.toString();
+                ret = ret.replaceAll("\\n", "");
+                ret = ret.replaceAll("\\r", "");
+                ret = ret.replaceAll("\\s", "");
             }
         }
         catch (FileNotFoundException e) {
-            Log.e("login activity", "File not found: " + e.toString());
-            ret = "0";
+            Log.e("login activity", "File not found, attempting first run init. File: " + e.toString());
+            writeIdToFile("0");
+            return readIdFromFile();
+
         } catch (IOException e) {
             Log.e("login activity", "Can not read file: " + e.toString());
             ret = "0";
@@ -135,31 +143,65 @@ public class MainActivity extends Activity {
 
     private int postUrl(String sourceUrl, String data) {
         try {
+            Log.i("Info", "POST [" + sourceUrl + "] PAYLOAD: " + data);
             URL url = new URL(sourceUrl);
             HttpURLConnection con = (HttpURLConnection)url.openConnection();
-            con.setRequestMethod("POST");
-            con.setRequestProperty("Content-Type", "application/json; utf-8");
-            con.setRequestProperty("Accept", "application/json");
+            con.setConnectTimeout(5000);
+            con.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
             con.setDoOutput(true);
-            try(OutputStream os = con.getOutputStream()) {
-                byte[] input = data.getBytes("utf-8");
-                os.write(input, 0, input.length);
-            }
-            try(BufferedReader br = new BufferedReader(
-                    new InputStreamReader(con.getInputStream(), "utf-8"))) {
-                StringBuilder response = new StringBuilder();
-                String responseLine = null;
-                while ((responseLine = br.readLine()) != null) {
-                    response.append(responseLine.trim());
-                }
-                System.out.println(response.toString());
-            }
+            con.setDoInput(true);
+            con.setRequestMethod("POST");
+
+            OutputStream os = con.getOutputStream();
+            os.write(data.getBytes("UTF-8"));
+            os.close();
+
+
+
+//            con.setRequestMethod("POST");
+//            con.setRequestProperty("Content-Type", "application/json; utf-8");
+//            con.setRequestProperty("Accept", "application/json");
+//            try(OutputStream os = con.getOutputStream()) {
+//                byte[] input = data.getBytes("utf-8");
+//                os.write(input, 0, input.length);
+//            }
+//            con.connect();
+            Log.i("Info", "Got [" + con.getResponseCode() + "] from: " + sourceUrl);
+            return con.getResponseCode();
+
+//            try(OutputStream os = con.getOutputStream()) {
+//                byte[] input = data.getBytes("utf-8");
+//                os.write(input, 0, input.length);
+//            }
+//            try(BufferedReader br = new BufferedReader(
+//                    new InputStreamReader(con.getInputStream(), "utf-8"))) {
+//                StringBuilder response = new StringBuilder();
+//                String responseLine = null;
+//                while ((responseLine = br.readLine()) != null) {
+//                    response.append(responseLine.trim());
+//                }
+//                System.out.println(response.toString());
+//                response.getResponseCode()
+//            }
         } catch (MalformedURLException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
     return 0;
+    }
+
+    private boolean checkID (String id){
+        String postJson =  "{\"id\": " + Integer.parseInt(id) + "}";
+        if (postUrl("https://api.manyproject.uk/authid", postJson) == 200) {
+            return true;
+        }
+        return false;
+    }
+
+    private void postResult(String id, double dl, double ul, double ping, double jitter, int EvdoDbm, int EvdoEcio, int EvdoSnr) {
+        String postJson =  "{\"id\": " + Integer.parseInt(id) + ", \"dl\" : " + dl + ", \"ul\" : " + ul + ", \"ping\" : " + ping + ", \"jitter\" : " + jitter + ", \"evdoDbm\" : " + EvdoDbm + ", \"evdoEcio\" : " + EvdoEcio + ", \"evdoSnr\" : " + EvdoSnr + "}";
+        postUrl("https://api.manyproject.uk/pushresult", postJson);
     }
 
     private void page_init(){
@@ -385,8 +427,7 @@ public class MainActivity extends Activity {
             public void onClick(View v) {
                 EditText edit = (EditText) findViewById(R.id.idEdit);
                 String id = edit.getText().toString();
-//                int res = postUrl("https://influx.manyproject.uk/", id); //TODO send to the server for verification
-                if (true) {
+                if (checkID(id)) {
                     writeIdToFile(id);
                     ((TextView)findViewById(R.id.idDisplay)).setText("Current ID: " + readIdFromFile());
                 }
@@ -512,8 +553,7 @@ public class MainActivity extends Activity {
                 String id = readIdFromFile();
                 int telephony[] = getTelephony();
 
-
-
+                postResult(id, dl, ul, ping, jitter, telephony[0], telephony[1], telephony[2]);
 
                 runOnUiThread(new Runnable() {
                     @Override
