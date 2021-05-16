@@ -1,0 +1,30 @@
+[
+    {
+        "merged": "/Users/arisaie/speedtest-many/Speedtest-Android/app/build/intermediates/res/merged/debug/drawable_logo.png.flat",
+        "source": "/Users/arisaie/speedtest-many/Speedtest-Android/app/src/main/res/drawable/logo.png"
+    },
+    {
+        "merged": "/Users/arisaie/speedtest-many/Speedtest-Android/app/build/intermediates/res/merged/debug/drawable_many_logo.png.flat",
+        "source": "/Users/arisaie/speedtest-many/Speedtest-Android/app/src/main/res/drawable/many_logo.png"
+    },
+    {
+        "merged": "/Users/arisaie/speedtest-many/Speedtest-Android/app/build/intermediates/res/merged/debug/drawable_testbackground.png.flat",
+        "source": "/Users/arisaie/speedtest-many/Speedtest-Android/app/src/main/res/drawable/testbackground.png"
+    },
+    {
+        "merged": "/Users/arisaie/speedtest-many/Speedtest-Android/app/build/intermediates/res/merged/debug/drawable_logo_inapp.png.flat",
+        "source": "/Users/arisaie/speedtest-many/Speedtest-Android/app/src/main/res/drawable/logo_inapp.png"
+    },
+    {
+        "merged": "/Users/arisaie/speedtest-many/Speedtest-Android/app/build/intermediates/res/merged/debug/drawable_testbackground_old.png.flat",
+        "source": "/Users/arisaie/speedtest-many/Speedtest-Android/app/src/main/res/drawable/testbackground_old.png"
+    },
+    {
+        "merged": "/Users/arisaie/speedtest-many/Speedtest-Android/app/build/intermediates/res/merged/debug/layout_activity_main.xml.flat",
+        "source": "/Users/arisaie/speedtest-many/Speedtest-Android/app/src/main/res/layout/activity_main.xml"
+    },
+    {
+        "merged": "/Users/arisaie/speedtest-many/Speedtest-Android/app/build/intermediates/res/merged/debug/drawable_ic_launcher.png.flat",
+        "source": "/Users/arisaie/speedtest-many/Speedtest-Android/app/src/main/res/drawable/ic_launcher.png"
+    }
+]

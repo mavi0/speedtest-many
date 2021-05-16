@@ -1,0 +1,4 @@
+#Sun May 16 17:21:24 BST 2021
+base.0=/Users/arisaie/speedtest-many/Speedtest-Android/app/build/intermediates/dex/debug/mergeProjectDexDebug/classes.dex
+renamed.0=classes.dex
+path.0=classes.dex

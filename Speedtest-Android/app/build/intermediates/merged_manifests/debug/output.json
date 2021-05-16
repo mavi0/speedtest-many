@@ -1,0 +1,28 @@
+{
+  "version": 1,
+  "applicationId": "your.name.here.speedtest",
+  "variantType": "BASE_APK",
+  "elements": [
+    {
+      "outputType": {
+        "type": "MERGED_MANIFESTS"
+      },
+      "apkData": {
+        "type": "MAIN",
+        "splits": [],
+        "versionCode": 8,
+        "versionName": "1.2.2",
+        "outputFile": "app-debug.apk",
+        "fullName": "debug",
+        "baseName": "debug",
+        "dirName": ""
+      },
+      "path": "AndroidManifest.xml",
+      "properties": {
+        "packageId": "your.name.here.speedtest",
+        "split": "",
+        "minSdkVersion": "28"
+      }
+    }
+  ]
+}

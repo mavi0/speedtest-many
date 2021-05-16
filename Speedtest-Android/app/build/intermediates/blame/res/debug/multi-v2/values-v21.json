@@ -1,0 +1,28 @@
+{
+    "logs": [
+        {
+            "outputFile": "/Users/arisaie/speedtest-many/Speedtest-Android/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-v21/values-v21.xml",
+            "map": [
+                {
+                    "source": "/Users/arisaie/speedtest-many/Speedtest-Android/app/src/main/res/values-v21/styles.xml",
+                    "from": {
+                        "startLines": "3,9",
+                        "startColumns": "4,4",
+                        "startOffsets": "54,342",
+                        "endLines": "7,12",
+                        "endColumns": "12,12",
+                        "endOffsets": "336,521"
+                    },
+                    "to": {
+                        "startLines": "2,7",
+                        "startColumns": "4,4",
+                        "startOffsets": "55,342",
+                        "endLines": "6,10",
+                        "endColumns": "12,12",
+                        "endOffsets": "337,521"
+                    }
+                }
+            ]
+        }
+    ]
+}

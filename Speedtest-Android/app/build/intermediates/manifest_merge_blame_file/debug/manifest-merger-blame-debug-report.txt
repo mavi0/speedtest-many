@@ -1,0 +1,60 @@
+1<?xml version="1.0" encoding="utf-8"?>
+2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+3    package="your.name.here.speedtest"
+4    android:versionCode="8"
+5    android:versionName="1.2.2" >
+6
+7    <uses-sdk
+8        android:minSdkVersion="28"
+8-->/Users/arisaie/speedtest-many/Speedtest-Android/app/src/main/AndroidManifest.xml
+9        android:targetSdkVersion="28" />
+9-->/Users/arisaie/speedtest-many/Speedtest-Android/app/src/main/AndroidManifest.xml
+10
+11    <uses-permission android:name="android.permission.INTERNET" />
+11-->/Users/arisaie/speedtest-many/Speedtest-Android/app/src/main/AndroidManifest.xml:25:5-67
+11-->/Users/arisaie/speedtest-many/Speedtest-Android/app/src/main/AndroidManifest.xml:25:22-64
+12    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+12-->/Users/arisaie/speedtest-many/Speedtest-Android/app/src/main/AndroidManifest.xml:26:5-75
+12-->/Users/arisaie/speedtest-many/Speedtest-Android/app/src/main/AndroidManifest.xml:26:22-72
+13    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+13-->/Users/arisaie/speedtest-many/Speedtest-Android/app/src/main/AndroidManifest.xml:27:5-79
+13-->/Users/arisaie/speedtest-many/Speedtest-Android/app/src/main/AndroidManifest.xml:27:22-76
+14
+15    <application
+15-->/Users/arisaie/speedtest-many/Speedtest-Android/app/src/main/AndroidManifest.xml:6:5-23:19
+16        android:allowBackup="true"
+16-->/Users/arisaie/speedtest-many/Speedtest-Android/app/src/main/AndroidManifest.xml:7:9-35
+17        android:debuggable="true"
+18        android:extractNativeLibs="false"
+19        android:icon="@drawable/ic_launcher"
+19-->/Users/arisaie/speedtest-many/Speedtest-Android/app/src/main/AndroidManifest.xml:8:9-45
+20        android:label="@string/app_name"
+20-->/Users/arisaie/speedtest-many/Speedtest-Android/app/src/main/AndroidManifest.xml:9:9-41
+21        android:supportsRtl="true"
+21-->/Users/arisaie/speedtest-many/Speedtest-Android/app/src/main/AndroidManifest.xml:10:9-35
+22        android:theme="@style/AppTheme.NoActionBar" >
+22-->/Users/arisaie/speedtest-many/Speedtest-Android/app/src/main/AndroidManifest.xml:11:9-52
+23        <activity
+23-->/Users/arisaie/speedtest-many/Speedtest-Android/app/src/main/AndroidManifest.xml:12:9-22:20
+24            android:name="com.fdossena.speedtest.ui.MainActivity"
+24-->/Users/arisaie/speedtest-many/Speedtest-Android/app/src/main/AndroidManifest.xml:13:13-66
+25            android:configChanges="screenSize|smallestScreenSize|screenLayout|orientation"
+25-->/Users/arisaie/speedtest-many/Speedtest-Android/app/src/main/AndroidManifest.xml:14:13-91
+26            android:launchMode="singleTop"
+26-->/Users/arisaie/speedtest-many/Speedtest-Android/app/src/main/AndroidManifest.xml:15:13-43
+27            android:resizeableActivity="false" >
+27-->/Users/arisaie/speedtest-many/Speedtest-Android/app/src/main/AndroidManifest.xml:16:13-47
+28            <intent-filter>
+28-->/Users/arisaie/speedtest-many/Speedtest-Android/app/src/main/AndroidManifest.xml:18:13-21:29
+29                <action android:name="android.intent.action.MAIN" />
+29-->/Users/arisaie/speedtest-many/Speedtest-Android/app/src/main/AndroidManifest.xml:19:17-69
+29-->/Users/arisaie/speedtest-many/Speedtest-Android/app/src/main/AndroidManifest.xml:19:25-66
+30
+31                <category android:name="android.intent.category.LAUNCHER" />
+31-->/Users/arisaie/speedtest-many/Speedtest-Android/app/src/main/AndroidManifest.xml:20:17-77
+31-->/Users/arisaie/speedtest-many/Speedtest-Android/app/src/main/AndroidManifest.xml:20:27-74
+32            </intent-filter>
+33        </activity>
+34    </application>
+35
+36</manifest>
